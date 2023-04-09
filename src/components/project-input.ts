@@ -1,11 +1,10 @@
-/// <reference path="base-component.ts"/>
-/// <reference path="../decorators/autobind.ts"/>
-/// <reference path="../util/validation.ts"/>
-/// <reference path="../state/project-state.ts"/>
+import Cmp from "./base-component.js";
+import * as Validation from "../util/validation.js";
+import { autobind as Autobind} from "../decorators/autobind.js";
+import { projectState } from "../state/project-state.js";
 
-namespace App {
   //Project input class
-  export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
+  export class ProjectInput extends Cmp<HTMLDivElement, HTMLFormElement> {
     titleInputElement: HTMLInputElement;
     descriptionInputElement: HTMLInputElement;
     poeopleInputElement: HTMLInputElement;
@@ -36,18 +35,18 @@ namespace App {
       const enteredDescription = this.descriptionInputElement.value;
       const enteredPeople = this.poeopleInputElement.value;
 
-      const titleValidatable: Validatable = {
+      const titleValidatable: Validation.Validatable = {
         value: enteredTitle,
         required: true,
       };
 
-      const descriptionValidatable: Validatable = {
+      const descriptionValidatable: Validation.Validatable = {
         value: enteredDescription,
         required: true,
         minLength: 5,
       };
 
-      const peopleValidatable: Validatable = {
+      const peopleValidatable: Validation.Validatable = {
         value: enteredPeople,
         required: true,
         min: 1,
@@ -55,9 +54,9 @@ namespace App {
       };
 
       if (
-        !validate(titleValidatable) ||
-        !validate(descriptionValidatable) ||
-        !validate(peopleValidatable)
+        !Validation.validate(titleValidatable) ||
+        !Validation.validate(descriptionValidatable) ||
+        !Validation.validate(peopleValidatable)
       ) {
         alert("Invlid input. Please try again");
         return;
@@ -66,7 +65,7 @@ namespace App {
       }
     }
 
-    @autobind
+    @Autobind
     private submitHandler(event: Event) {
       event.preventDefault();
       const userInput = this.gatherUserInput();
@@ -84,4 +83,4 @@ namespace App {
       this.poeopleInputElement.value = "";
     }
   }
-}
+
